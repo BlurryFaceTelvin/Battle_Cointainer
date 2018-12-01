@@ -18,4 +18,12 @@ public:
 protected:
 	UPROPERTY(EditAnywhere, Category = "Blackboard")
 		FBlackboardKeySelector IndexKey;
+	UPROPERTY(EditAnywhere, Category = "Blackboard")
+		FBlackboardKeySelector WaypointKey;
+private:
+	UBlackboardComponent* BlackboardComp=nullptr;
+	TArray<AActor*> PatrolPoints;
+	void GetPatrolPoints(UBehaviorTreeComponent& OwnerComp);//Get patrol points
+	int32 SetNextWaypoint();
+	void CycleIndex(int32 index);
 };

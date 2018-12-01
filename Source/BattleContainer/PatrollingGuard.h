@@ -17,6 +17,9 @@ class BATTLECONTAINER_API APatrollingGuard : public ATP_ThirdPersonCharacter
 protected:
 	UPROPERTY(EditAnywhere, Category = "Patrol Route")
 		TArray<AActor*> PatrolPointsCPP;
+public:
+	TArray<AActor*> GetPatrolPointsCPP();
+	void setPatrolPointsCPP(TArray<AActor*> InPatrolPointsCPP);
 	
 	
 };
