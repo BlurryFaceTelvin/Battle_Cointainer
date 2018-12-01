@@ -3,7 +3,9 @@
 #include "ChooseNextWaypoint.h"
 #include "Runtime/AIModule/Classes/BehaviorTree/BlackboardComponent.h"
 #include "Runtime/AIModule/Classes/AIController.h"
-#include "PatrollingGuard.h"//TODO Remove coupling
+#include "Runtime/Engine/Classes/Components/ActorComponent.h"
+#include "PatrolRoute.h"
+
 
 EBTNodeResult::Type UChooseNextWaypoint::ExecuteTask(UBehaviorTreeComponent & OwnerComp, uint8 * NodeMemory)
 {
@@ -17,18 +19,19 @@ EBTNodeResult::Type UChooseNextWaypoint::ExecuteTask(UBehaviorTreeComponent & Ow
 
 void UChooseNextWaypoint::GetPatrolPoints(UBehaviorTreeComponent & OwnerComp)
 {
+	
 	AAIController* AIOwner =OwnerComp.GetAIOwner();
 	APawn* ControlledPawn = AIOwner->GetPawn();
-	APatrollingGuard* PatrollingGuard = Cast<APatrollingGuard>(ControlledPawn);
-	PatrolPoints = PatrollingGuard->GetPatrolPointsCPP();
+	UPatrolRoute* PatrolRoute = ControlledPawn->FindComponentByClass<UPatrolRoute>();
+	if (!ensure(PatrolRoute)) { return; }
+	PatrolPoints = PatrolRoute->GetPatrolPoints();
+	if(PatrolPoints.Num()==0){UE_LOG(LogTemp,Warning,TEXT("A guard is missing patrol points")) }
 }
 
 int32 UChooseNextWaypoint::SetNextWaypoint()
 {
-	
 	int32 Index = BlackboardComp->GetValueAsInt(IndexKey.SelectedKeyName);
 	BlackboardComp->SetValueAsObject(WaypointKey.SelectedKeyName, PatrolPoints[Index]);
-	UE_LOG(LogTemp, Warning, TEXT("Index: %i"), Index)
 	return Index;
 }
 
