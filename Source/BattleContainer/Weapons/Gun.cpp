@@ -12,6 +12,7 @@ AGun::AGun()
 	PrimaryActorTick.bCanEverTick = true;
 	// Create a gun mesh component
 	FP_Gun = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("FP_Gun"));
+	SetRootComponent(FP_Gun);
 	FP_Gun->bCastDynamicShadow = false;
 	FP_Gun->CastShadow = false;
 	// FP_Gun->SetupAttachment(Mesh1P, TEXT("GripPoint"));
@@ -38,6 +39,7 @@ void AGun::Tick(float DeltaTime)
 
 void AGun::OnFire()
 {
+	UE_LOG(LogTemp, Warning, TEXT("Firing"));
 	// try and fire a projectile
 	if (ProjectileClass != NULL)
 	{
