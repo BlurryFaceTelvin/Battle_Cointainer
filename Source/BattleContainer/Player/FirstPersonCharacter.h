@@ -56,6 +56,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
 	FVector GunOffset;
 
+	UPROPERTY(EditDefaultsOnly, Category = "SetUp")
+		TSubclassOf<class AGun> GunBlueprint;
+
 	/** Whether to use motion controller location for aiming. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	uint32 bUsingMotionControllers : 1;
@@ -107,6 +110,8 @@ protected:
 	 * @returns true if touch controls were enabled.
 	 */
 	bool EnableTouchscreenMovement(UInputComponent* InputComponent);
+private:
+	AGun* gun;
 
 public:
 	/** Returns Mesh1P subobject **/
