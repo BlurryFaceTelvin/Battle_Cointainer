@@ -3,6 +3,7 @@
 #include "Mannequin.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/InputComponent.h"
 #include "Runtime/Engine/Classes/Components/SkeletalMeshComponent.h"
 #include "../Weapons/Gun.h"
 // Sets default values
@@ -43,6 +44,11 @@ void AMannequin::BeginPlay()
 	Gun = GetWorld()->SpawnActor<AGun>(GunBlueprint);
 	Gun->AttachToComponent(Mesh1P, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
 	Gun->AnimInstance = Mesh1P->GetAnimInstance();
+	//if possessed by player we bind action to the fire method
+	if(InputComponent!=NULL)
+	{
+		InputComponent->BindAction("Fire", IE_Pressed, this, &AMannequin::PullTrigger);
+	}
 	
 }
 
@@ -60,7 +66,7 @@ void AMannequin::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 
 }
 
-void AMannequin::Fire()
+void AMannequin::PullTrigger()
 {
 	Gun->OnFire();
 }
