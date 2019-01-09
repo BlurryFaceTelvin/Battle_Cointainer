@@ -84,7 +84,7 @@ void AFirstPersonCharacter::BeginPlay()
 	//Attach gun mesh component to Skeleton, doing it here because the skeleton is not yet created in the constructor
 	gun = GetWorld()->SpawnActor<AGun>(GunBlueprint);
 	gun->AttachToComponent(Mesh1P, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
-	gun->AnimInstance = Mesh1P->GetAnimInstance();
+	gun->FP_AnimInstance = Mesh1P->GetAnimInstance();
 	InputComponent->BindAction("Fire", IE_Pressed, gun, &AGun::OnFire);
 
 	// Show or hide the two versions of the gun based on whether or not we're using motion controllers.

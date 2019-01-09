@@ -34,9 +34,13 @@ public:
 		class USoundBase* FireSound;
 	/** AnimMontage to play each time we fire */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		class UAnimMontage* FireAnimation;
+		class UAnimMontage* FP_FireAnimation;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		class UAnimInstance* AnimInstance;
+		class UAnimMontage* TP_FireAnimation;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		class UAnimInstance* FP_AnimInstance;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		class UAnimInstance* TP_AnimInstance;
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

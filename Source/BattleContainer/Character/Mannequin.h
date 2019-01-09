@@ -33,6 +33,9 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	//Called to check whether the pawn is possessed
+	virtual void UnPossessed() override;
+
 
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	TSubclassOf<class AGun> GunBlueprint;
