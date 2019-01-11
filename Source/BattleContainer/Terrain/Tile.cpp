@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Tile.h"
+#include "Runtime/Engine/Classes/Engine/World.h"
 
 
 // Sets default values
@@ -11,17 +12,21 @@ ATile::ATile()
 
 }
 
-void ATile::PlaceActors()
+void ATile::PlaceActors(TSubclassOf<AActor> ToBeSpawn,int MinSpawn,int MaxSpawn)
 {
 	//calculate the min and max points of the tile 
 	FVector Min(0,-2000,0);
 	FVector Max(4000,2000,0);
 	FBox Bounds(Min, Max);
+	int NumberOfSpawns = FMath::RandRange(MinSpawn, MaxSpawn);
 	//generate random spawn locations
-	for (int i = 0; i < 20; i++)
+	for (int i = 0; i < NumberOfSpawns; i++)
 	{
 		FVector Spawnpoints = FMath::RandPointInBox(Bounds);
-		UE_LOG(LogTemp, Warning, TEXT("Spawn Points %s"), *Spawnpoints.ToString())
+		//spawn the actors and place them correctly
+		AActor* SpawnedActor = GetWorld()->SpawnActor(ToBeSpawn);
+		SpawnedActor->SetActorRelativeLocation(Spawnpoints);
+		SpawnedActor->AttachToActor(this,FAttachmentTransformRules(EAttachmentRule::KeepRelative,false));
 	}
 }
 

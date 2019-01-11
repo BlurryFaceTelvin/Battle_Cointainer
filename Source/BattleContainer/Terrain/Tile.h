@@ -15,7 +15,7 @@ public:
 	// Sets default values for this actor's properties
 	ATile();
 	UFUNCTION(BlueprintCallable, Category = SpawnActor)
-	void PlaceActors();
+	void PlaceActors(TSubclassOf<AActor> ToBeSpawn, int MinSpawn, int MaxSpawn);
 
 protected:
 	// Called when the game starts or when spawned
