@@ -24,7 +24,9 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	
+private:
+	//check if the objects spawn(props) intersect with anything
+	bool SphereCast(FVector Location,float Radius);
 	
 	
 };
