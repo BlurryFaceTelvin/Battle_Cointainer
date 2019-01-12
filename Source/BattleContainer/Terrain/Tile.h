@@ -15,7 +15,7 @@ public:
 	// Sets default values for this actor's properties
 	ATile();
 	UFUNCTION(BlueprintCallable, Category = SpawnActor)
-	void PlaceActors(TSubclassOf<AActor> ToBeSpawn, int MinSpawn=1, int MaxSpawn=1, float Radius=500);
+	void PlaceActors(TSubclassOf<AActor> ToBeSpawn, int MinSpawn , int MaxSpawn, float Radius, bool canScale);
 
 protected:
 	// Called when the game starts or when spawned
@@ -28,7 +28,8 @@ private:
 	//check if the objects spawn(props) intersect with anything
 	bool CanSpawnAtLocation(FVector Location,float Radius);
 	bool FindEmptyLocation(FVector &OutLocation,float Radius);
-	void InserActor(TSubclassOf<AActor> ToBeSpawn, FVector SpawnPoint);
+	void InserActor(TSubclassOf<AActor> ToBeSpawn, FVector SpawnPoint,float Rotation,float Scale);
+
 	
 	
 };
