@@ -15,26 +15,20 @@ UActorPool::UActorPool()
 
 AActor * UActorPool::CheckOut()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Checking out"));
-	return nullptr;
+	//check if pool has something
+	if (Pool.Num() == 0)
+	{
+		return nullptr;
+	}
+	return Pool.Pop();
 }
 
 void UActorPool::Return(AActor * ActorToReturn)
 {
-	if (ActorToReturn == nullptr)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Returned Null Actor"));
-		return;
-	}
-	UE_LOG(LogTemp, Warning, TEXT("Mesh Returned: %s"),*ActorToReturn->GetName());
+	Add(ActorToReturn);
 }
 
 void UActorPool::Add(AActor * ActorToAdd)
 {
-	if (ActorToAdd == nullptr)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Add Null Actor"));
-		return;
-	}
-	UE_LOG(LogTemp, Warning, TEXT("Mesh Add: %s"), *ActorToAdd->GetName());
+	Pool.Push(ActorToAdd);
 }

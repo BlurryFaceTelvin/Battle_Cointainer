@@ -9,6 +9,8 @@ ATile::ATile()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	MinExtent = FVector(0, -2000, 0);
+	MaxExtent = FVector(2000, 4000, 0);
 
 }
 
@@ -63,10 +65,11 @@ void ATile::PositionNavMeshBoundsVolume()
 	NavMeshBoundsVolume = Pool->CheckOut();
 	if(NavMeshBoundsVolume==nullptr)
 	{
-		UE_LOG(LogTemp, Error, TEXT("Not enough Pool Actors"));
+		UE_LOG(LogTemp, Error, TEXT("%s Not enough Pool Actors"),*GetName());
 		return;
 	}
 	NavMeshBoundsVolume->SetActorLocation(GetActorLocation());
+	UE_LOG(LogTemp, Error, TEXT("Checked out: %s"), *NavMeshBoundsVolume->GetName());
 }
 
 bool ATile::CanSpawnAtLocation(FVector Location, float Radius)
@@ -78,11 +81,8 @@ bool ATile::CanSpawnAtLocation(FVector Location, float Radius)
 }
 
 bool ATile::FindEmptyLocation(FVector &OutLocation,float Radius)
-{
-	//calculate the min and max points of the tile 
-	FVector Min(0,-2000,0);
-	FVector Max(4000,2000,0);
-	FBox Bounds(Min, Max);
+{ 	
+	FBox Bounds(MinExtent, MaxExtent);
 	//loop 100 times till we find an empty location
 	const int MAX_ATTEMPTS = 10;
 	for (int i = 0; i < MAX_ATTEMPTS; i++)

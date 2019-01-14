@@ -18,6 +18,10 @@ public:
 	void PlaceActors(TSubclassOf<AActor> ToBeSpawn, int MinSpawn , int MaxSpawn, float Radius, bool canScale);
 
 protected:
+	UPROPERTY(EditDefaultsOnly,Category = Spawning)
+	FVector MinExtent;
+	UPROPERTY(EditDefaultsOnly, Category = Spawning)
+	FVector MaxExtent;
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	//Called when the object is destroyed in the game
