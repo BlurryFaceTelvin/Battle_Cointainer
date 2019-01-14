@@ -24,7 +24,10 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	UFUNCTION(BlueprintCallable, Category = Pool)
+		void SetPool(class UActorPool* ActorPool);
 private:
+	class UActorPool* Pool = nullptr;
 	//check if the objects spawn(props) intersect with anything
 	bool CanSpawnAtLocation(FVector Location,float Radius);
 	bool FindEmptyLocation(FVector &OutLocation,float Radius);
