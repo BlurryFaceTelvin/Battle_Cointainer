@@ -38,6 +38,13 @@ void ATile::BeginPlay()
 	
 }
 
+void ATile::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+	//return Navmesh to the pool
+	Pool->Return(NavMeshBoundsVolume);
+}
+
 // Called every frame
 void ATile::Tick(float DeltaTime)
 {
@@ -48,6 +55,18 @@ void ATile::Tick(float DeltaTime)
 void ATile::SetPool(UActorPool * ActorPool)
 {
 	Pool = ActorPool;
+	PositionNavMeshBoundsVolume();
+}
+
+void ATile::PositionNavMeshBoundsVolume()
+{
+	NavMeshBoundsVolume = Pool->CheckOut();
+	if(NavMeshBoundsVolume==nullptr)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Not enough Pool Actors"));
+		return;
+	}
+	NavMeshBoundsVolume->SetActorLocation(GetActorLocation());
 }
 
 bool ATile::CanSpawnAtLocation(FVector Location, float Radius)

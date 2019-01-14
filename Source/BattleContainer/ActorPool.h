@@ -17,7 +17,7 @@ public:
 	UActorPool();
 	//getter and setters
 	AActor* CheckOut();
-	void Return(AActor* ActorToSet);
+	void Return(AActor* ActorToReturn);
 
 	void Add(AActor* ActorToAdd);
 	
