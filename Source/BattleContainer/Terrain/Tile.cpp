@@ -49,8 +49,6 @@ bool ATile::CanSpawnAtLocation(FVector Location, float Radius)
 	FHitResult HitResult;
 	FVector GlobalLocation = ActorToWorld().TransformPosition(Location);
 	bool HasHit = GetWorld()->SweepSingleByChannel(HitResult, GlobalLocation, GlobalLocation, FQuat::Identity, ECollisionChannel::ECC_GameTraceChannel2, FCollisionShape::MakeSphere(Radius));
-	FColor ResultColor = HasHit ? FColor::Red : FColor::Green;
-	DrawDebugSphere(GetWorld(), GlobalLocation, Radius, 10, ResultColor,true,100);
 	return !HasHit;
 }
 
