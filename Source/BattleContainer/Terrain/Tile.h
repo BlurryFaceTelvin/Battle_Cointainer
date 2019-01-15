@@ -18,6 +18,8 @@ public:
 	void PlaceActors(TSubclassOf<AActor> ToBeSpawn, int MinSpawn , int MaxSpawn, float Radius, bool canScale);
 
 protected:
+	UPROPERTY(EditDefaultsOnly, Category = Navigation)
+	FVector NavigationBoundsOffset;
 	UPROPERTY(EditDefaultsOnly,Category = Spawning)
 	FVector MinExtent;
 	UPROPERTY(EditDefaultsOnly, Category = Spawning)
