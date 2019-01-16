@@ -24,9 +24,11 @@ class BATTLECONTAINER_API ATile : public AActor
 public:	
 	// Sets default values for this actor's properties
 	ATile();
-	UFUNCTION(BlueprintCallable, Category = SpawnActor)
+	UFUNCTION(BlueprintCallable, Category = Spawning)
 	void PlaceActors(TSubclassOf<AActor> ToBeSpawn, int MinSpawn , int MaxSpawn, float Radius, bool canScale);
-
+	
+	UFUNCTION(BlueprintCallable, Category = Spawning)
+	void PlaceAIPawns(TSubclassOf<APawn> ToBeSpawn, int MinSpawn, int MaxSpawn, float Radius);
 	TArray<FSpawnPosition> RandomSpawnPositions(int MinSpawn, int MaxSpawn, bool canScale, float Radius);
 
 protected:
@@ -50,6 +52,7 @@ private:
 	class UActorPool* Pool = nullptr;
 	AActor* NavMeshBoundsVolume = nullptr;
 	void PositionNavMeshBoundsVolume();
+	void PlaceAIPawn(TSubclassOf<APawn> ToBeSpawn, FSpawnPosition SpawnPosition);
 	//check if the objects spawn(props) intersect with anything
 	bool CanSpawnAtLocation(FVector Location,float Radius);
 	bool FindEmptyLocation(FVector &OutLocation,float Radius);
