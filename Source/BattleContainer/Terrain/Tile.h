@@ -2,9 +2,19 @@
 
 #pragma once
 
+
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Tile.generated.h"
+USTRUCT()
+struct FSpawnPosition
+{
+	GENERATED_USTRUCT_BODY()
+	FVector Location;
+	float Rotation;
+	float Scale;
+};
+
 
 UCLASS()
 class BATTLECONTAINER_API ATile : public AActor
@@ -16,6 +26,8 @@ public:
 	ATile();
 	UFUNCTION(BlueprintCallable, Category = SpawnActor)
 	void PlaceActors(TSubclassOf<AActor> ToBeSpawn, int MinSpawn , int MaxSpawn, float Radius, bool canScale);
+
+	TArray<FSpawnPosition> RandomSpawnPositions(int MinSpawn, int MaxSpawn, bool canScale, float Radius);
 
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = Navigation)
@@ -41,7 +53,7 @@ private:
 	//check if the objects spawn(props) intersect with anything
 	bool CanSpawnAtLocation(FVector Location,float Radius);
 	bool FindEmptyLocation(FVector &OutLocation,float Radius);
-	void InserActor(TSubclassOf<AActor> ToBeSpawn, FVector SpawnPoint,float Rotation,float Scale);
+	void InserActor(TSubclassOf<AActor> ToBeSpawn, const FSpawnPosition& SpawnPosition);
 
 
 	

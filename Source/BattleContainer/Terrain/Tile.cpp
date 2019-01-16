@@ -18,21 +18,33 @@ ATile::ATile()
 
 void ATile::PlaceActors(TSubclassOf<AActor> ToBeSpawn,int MinSpawn,int MaxSpawn,float Radius,bool canScale)
 {
-	float DefaultScale = 1,MaxScale = 4;
+	
+	TArray<FSpawnPosition> SpawnPositions = RandomSpawnPositions(MinSpawn, MaxSpawn, canScale, Radius);
+	for (FSpawnPosition SpawnPosition : SpawnPositions) 
+	{
+		InserActor(ToBeSpawn, SpawnPosition);
+	}
+}
+
+TArray<FSpawnPosition> ATile::RandomSpawnPositions(int MinSpawn, int MaxSpawn, bool canScale, float Radius)
+{
+	TArray<FSpawnPosition> SpawnPositions;
+	float DefaultScale = 1, MaxScale = 4;
 	int NumberOfSpawns = FMath::RandRange(MinSpawn, MaxSpawn);
 	float randomScale = FMath::RandRange(DefaultScale, MaxScale);
 	//generate random spawn locations
 	for (int i = 0; i < NumberOfSpawns; i++)
 	{
-		FVector SpawnPoint;
-		float scale = canScale ? randomScale : DefaultScale;
-		bool found = FindEmptyLocation(SpawnPoint, Radius*scale);
-		if(found)
+		FSpawnPosition spawnPosition;
+		spawnPosition.Scale = canScale ? randomScale : DefaultScale;
+		bool found = FindEmptyLocation(spawnPosition.Location, Radius*spawnPosition.Scale);
+		if (found)
 		{
-			float randomRotation = FMath::RandRange(-180.f, 180.f);
-			InserActor(ToBeSpawn, SpawnPoint, randomRotation,scale); 
+			spawnPosition.Rotation = FMath::RandRange(-180.f, 180.f);
+			SpawnPositions.Add(spawnPosition);
 		}
 	}
+	return SpawnPositions;
 }
 
 // Called when the game starts or when spawned
@@ -100,14 +112,14 @@ bool ATile::FindEmptyLocation(FVector &OutLocation,float Radius)
 	return false;
 }
 
-void ATile::InserActor(TSubclassOf<AActor> ToBeSpawn, FVector SpawnPoint,float Rotation,float Scale)
+void ATile::InserActor(TSubclassOf<AActor> ToBeSpawn, const FSpawnPosition& SpawnPosition)
 {
 		//spawn the actors and place them correctly
 		AActor* SpawnedActor = GetWorld()->SpawnActor(ToBeSpawn);
-		SpawnedActor->SetActorRelativeLocation(SpawnPoint);
+		SpawnedActor->SetActorRelativeLocation(SpawnPosition.Location);
 		SpawnedActor->AttachToActor(this,FAttachmentTransformRules(EAttachmentRule::KeepRelative,false));
-		SpawnedActor->SetActorRotation(FRotator(0, Rotation, 0));
-		SpawnedActor->SetActorRelativeScale3D(FVector(Scale));
+		SpawnedActor->SetActorRotation(FRotator(0, SpawnPosition.Rotation, 0));
+		SpawnedActor->SetActorRelativeScale3D(FVector(SpawnPosition.Scale));
 }
 
 
