@@ -52,13 +52,17 @@ private:
 	class UActorPool* Pool = nullptr;
 	AActor* NavMeshBoundsVolume = nullptr;
 	void PositionNavMeshBoundsVolume();
-	void PlaceAIPawn(TSubclassOf<APawn> ToBeSpawn, FSpawnPosition SpawnPosition);
 	//check if the objects spawn(props) intersect with anything
 	bool CanSpawnAtLocation(FVector Location,float Radius);
 	bool FindEmptyLocation(FVector &OutLocation,float Radius);
-	void InserActor(TSubclassOf<AActor> ToBeSpawn, const FSpawnPosition& SpawnPosition);
+	template<class T>
+	void RandomlyPlaceActors(TSubclassOf<T> ToBeSpawn, int MinSpawn, int MaxSpawn, float Radius, bool canScale);
 
+	void InserActor(TSubclassOf<AActor> ToBeSpawn, const FSpawnPosition& SpawnPosition);
+	void InserActor(TSubclassOf<APawn> ToBeSpawn, const FSpawnPosition& SpawnPosition);
+	
 
 	
 	
 };
+
