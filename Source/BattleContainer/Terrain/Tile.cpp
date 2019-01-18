@@ -39,23 +39,12 @@ void ATile::RandomlyPlaceActors(TSubclassOf<T> ToBeSpawn, int MinSpawn, int MaxS
 
 void ATile::PlaceActors(TSubclassOf<AActor> ToBeSpawn,int MinSpawn,int MaxSpawn,float Radius,bool canScale)
 {
-	
-	/*TArray<FSpawnPosition> SpawnPositions = RandomSpawnPositions(MinSpawn, MaxSpawn, canScale, Radius);
-	for (FSpawnPosition SpawnPosition : SpawnPositions) 
-	{
-		InserActor(ToBeSpawn, SpawnPosition);
-	}*/
 	RandomlyPlaceActors(ToBeSpawn, MinSpawn, MaxSpawn, Radius, canScale);
 }
 
 void ATile::PlaceAIPawns(TSubclassOf<APawn> ToBeSpawn, int MinSpawn, int MaxSpawn, float Radius)
 {
-	/*TArray<FSpawnPosition> SpawnPawnPositions = RandomSpawnPositions(MinSpawn, MaxSpawn, false, Radius);
-	for (FSpawnPosition SpawnPosition : SpawnPawnPositions)
-	{
-		PlaceAIPawn(ToBeSpawn, SpawnPosition);
-		
-	}*/
+	
 	RandomlyPlaceActors(ToBeSpawn, MinSpawn, MaxSpawn, Radius, false);
 }
 
