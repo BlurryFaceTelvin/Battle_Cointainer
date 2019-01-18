@@ -64,8 +64,15 @@ void ATile::BeginPlay()
 void ATile::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
-	//return Navmesh to the pool
-	Pool->Return(NavMeshBoundsVolume);
+	//check if we have a pool and a navmesh volume
+	if (Pool!=nullptr&&NavMeshBoundsVolume != nullptr)
+	{
+		//return Navmesh to the pool
+		Pool->Return(NavMeshBoundsVolume);
+	}
+	else {
+		return;
+	}
 }
 
 // Called every frame
@@ -136,12 +143,12 @@ void ATile::InserActor(TSubclassOf<AActor> ToBeSpawn, const FSpawnPosition& Spaw
 void ATile::InserActor(TSubclassOf<APawn> ToBeSpawn, const FSpawnPosition& SpawnPosition)
 {
 	//spawn the actors and place them correctly
-	APawn* SpawnedPawn = GetWorld()->SpawnActor<APawn>(ToBeSpawn);
+	FRotator rotation = FRotator(0, SpawnPosition.Rotation, 0);
+	APawn* SpawnedPawn = GetWorld()->SpawnActor<APawn>(ToBeSpawn,SpawnPosition.Location,rotation);
 	if (SpawnedPawn)
 	{
 		SpawnedPawn->SetActorRelativeLocation(SpawnPosition.Location);
 		SpawnedPawn->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
-		SpawnedPawn->SetActorRotation(FRotator(0, SpawnPosition.Rotation, 0));
 		SpawnedPawn->SpawnDefaultController();
 		SpawnedPawn->Tags.Add(FName("Enemy"));
 	}
