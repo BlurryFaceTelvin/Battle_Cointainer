@@ -23,6 +23,10 @@ void ATile::RandomlyPlaceActors(TSubclassOf<T> ToBeSpawn, int MinSpawn, int MaxS
 	float DefaultScale = 1, MaxScale = 4;
 	int NumberOfSpawns = FMath::RandRange(MinSpawn, MaxSpawn);
 	float randomScale = FMath::RandRange(DefaultScale, MaxScale);
+	if(ToBeSpawn==nullptr)
+	{
+		return;
+	}
 	//generate random spawn locations
 	for (int i = 0; i < NumberOfSpawns; i++)
 	{
